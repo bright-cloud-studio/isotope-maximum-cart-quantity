@@ -35,11 +35,7 @@ class IsotopeMaximumCartQuantity extends System {
          if( $oInCart && ($oInCart->quantity+$intQuantity) > 10 ) {
             
             // Show our Isotope message box with our "truncatedQuantity" message
-            Message::addConfirmation(sprintf(
-                $GLOBALS['TL_LANG']['MSC']['addedToLimit']
-                , $intQuantity
-                , 999
-            ));
+            Message::addConfirmation($GLOBALS['TL_LANG']['MSC']['cartAtMaximum']);
             
             // return what the quantity ended up being
             return 0;
