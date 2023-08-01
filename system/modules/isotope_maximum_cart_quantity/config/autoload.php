@@ -1,17 +1,17 @@
 <?php
 
-/**
- * Bright Cloud Studio's GAI Invoices
+/*
+ * Bright Cloud Studio's Isotope Maximum Cart Quantity
+ * Copyright (C) 2023 Bright Cloud Studio
  *
- * Copyright (C) 2021 Bright Cloud Studio
- *
- * @package    bright-cloud-studio/gai-invoices
+ * @package    bright-cloud-studio/isotope-maximum-cart-quantity
  * @link       https://www.brightcloudstudio.com/
  * @license    http://opensource.org/licenses/lgpl-3.0.html
-**/
+*/
 
-/* Register the classes */
+/* Register Classes */
 ClassLoader::addClasses(array
 (
-    'Bcs\Backend\IsotopeMaximumCartQuantity'            => 'system/modules/isotope_maximum_cart_quantity/library/Bcs/Backend/IsotopeMaximumCartQuantity.php',
+    // Class that contains all of our functionality for the Isotope Hooks
+    'Bcs\Backend\IsotopeMaximumCartQuantity'        => 'system/modules/isotope_maximum_cart_quantity/library/Bcs/Backend/IsotopeMaximumCartQuantity.php'
 ));
