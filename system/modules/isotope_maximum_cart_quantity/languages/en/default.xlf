@@ -5,6 +5,9 @@
     <trans-unit id="ERR.maximumQuantity">
       <source>The maximum available quantity for "%s" is %s items.</source>
     </trans-unit>
+    <trans-unit id="ERR.truncatedQuantity">
+      <source>Your request to add (%s) items to your cart exceeds the maximum of (10). Instead (%s) were added. </source>
+    </trans-unit>
 </body>
 </file>
 </xliff>
