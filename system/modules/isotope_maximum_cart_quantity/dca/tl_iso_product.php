@@ -11,7 +11,7 @@
 **/
 
  /* Extend the tl_user palettes */
- $GLOBALS['TL_DCA']['tl_iso_product']['palettes']['default'] = str_replace('{publish_legend}', '{maximum_cart_quantity_legend},limit;{publish_legend}');
+ $GLOBALS['TL_DCA']['tl_iso_product']['palettes']['default'] = str_replace('{publish_legend}', '{maximum_cart_quantity_legend},limit;{publish_legend}', $GLOBALS['TL_DCA']['tl_iso_product']['palettes']['default']);
 
 
 /* Add fields to tl_iso_product */
