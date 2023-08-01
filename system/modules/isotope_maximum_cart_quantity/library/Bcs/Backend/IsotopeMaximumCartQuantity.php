@@ -1,15 +1,13 @@
 <?php
 
-/**
- * Bright Cloud Studio's GAI Invoices
+/*
+ * Bright Cloud Studio's Isotope Maximum Cart Quantity
+ * Copyright (C) 2023 Bright Cloud Studio
  *
- * Copyright (C) 2022-2023 Bright Cloud Studio
- *
- * @package    bright-cloud-studio/gai-invoices
+ * @package    bright-cloud-studio/isotope-maximum-cart-quantity
  * @link       https://www.brightcloudstudio.com/
  * @license    http://opensource.org/licenses/lgpl-3.0.html
-**/
-
+*/
 
 namespace Bcs\Backend;
 
@@ -20,7 +18,6 @@ use Isotope\Model\Config;
 use Isotope\Model\Product;
 use Isotope\Model\ProductCollection;
 use Isotope\Model\ProductCollection\Order;
-
 
 class IsotopeMaximumCartQuantity extends System {
 
@@ -46,9 +43,9 @@ class IsotopeMaximumCartQuantity extends System {
          if( $oInCart && ($oInCart->quantity+$intQuantity) > 10 ) {
              
              Message::addError(sprintf(
-                $GLOBALS['TL_LANG']['ERR']['maximumQuantity']
-                , $objProduct->getName()
-                , 10
+                $GLOBALS['TL_LANG']['ERR']['truncatedQuantity']
+                , $intQuantity
+                , 999
             ));
             
             return 0;
@@ -87,4 +84,3 @@ class IsotopeMaximumCartQuantity extends System {
 
   
 }
-
