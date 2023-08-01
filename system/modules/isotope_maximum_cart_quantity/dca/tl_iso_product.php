@@ -11,9 +11,8 @@
 **/
 
  /* Extend the tl_user palettes */
-foreach ($GLOBALS['TL_DCA']['tl_iso_product']['palettes'] as $k => $v) {
-    $GLOBALS['TL_DCA']['tl_iso_product']['palettes'][$k] = str_replace('meta_description;', 'meta_description;{maximum_cart_quantity_legend},limit;', $v);
-}
+ $GLOBALS['TL_DCA']['tl_iso_product']['palettes']['default'] = str_replace('{publish_legend}', '{maximum_cart_quantity_legend},limit;{publish_legend}');
+
 
 /* Add fields to tl_iso_product */
 $GLOBALS['TL_DCA']['tl_iso_product']['fields']['limit'] = array
