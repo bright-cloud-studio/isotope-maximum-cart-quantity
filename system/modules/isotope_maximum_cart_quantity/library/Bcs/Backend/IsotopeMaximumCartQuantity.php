@@ -64,11 +64,7 @@ class IsotopeMaximumCartQuantity extends System {
             $arrSet['quantity'] = 10;
         
             // Display our Isotope message explaining what went down
-            Message::addConfirmation(sprintf(
-                $GLOBALS['TL_LANG']['MSC']['addedToLimit']
-                , "PRODUCT_NAME"
-                , 999
-            ));
+            Message::addConfirmation($GLOBALS['TL_LANG']['MSC']['cartAtMaximum']);
             
         }
             
