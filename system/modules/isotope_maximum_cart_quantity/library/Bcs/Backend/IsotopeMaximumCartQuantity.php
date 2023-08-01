@@ -33,13 +33,30 @@ class IsotopeMaximumCartQuantity extends System {
      * @return boolean
      */
     public function checkCollectionQuantity( Product $objProduct, $intQuantity, IsotopeProductCollection $objCollection ) {
-        \Controller::log('ISO: checkCollectionQuantity triggered', __CLASS__ . '::' . __FUNCTION__, 'GENERAL');
         
-        Message::addError(sprintf(
-            "Line One"
-            , $objProduct->getName()
-            , $intQuantity
-        ));
+        // Add a message to the log showing this hook was called
+        //\Controller::log('ISO: checkCollectionQuantity triggered', __CLASS__ . '::' . __FUNCTION__, 'GENERAL');
+        
+        
+        // find product in cart to check if the total quantity exceeds our stock
+        $oInCart = null;
+        $oInCart = $objCollection->getItemForProduct($objProduct);
+        
+        // if we have something in the cart, and that plus our requested quantity are above ten
+         if( $oInCart && ($oInCart->quantity+$intQuantity) > 10 ) {
+             
+             Message::addError(sprintf(
+                $GLOBALS['TL_LANG']['ERR']['maximumQuantity']
+                , $objProduct->getName()
+                , 10
+            ));
+            
+            return 0;
+             
+         } else {
+             return $intQuantity;
+         }
+    
         
         return false;
     }
@@ -55,7 +72,16 @@ class IsotopeMaximumCartQuantity extends System {
      * @return array
      */
     public function updateCollectionQuantity($objItem, $arrSet, $objCart) {
-        \Controller::log('ISO: updateCollectionQuantity triggered', __CLASS__ . '::' . __FUNCTION__, 'GENERAL');
+        
+        // Add message to log to show it triggered this hook
+        //\Controller::log('ISO: updateCollectionQuantity triggered', __CLASS__ . '::' . __FUNCTION__, 'GENERAL');
+        
+        $objProduct = null;
+        $objProduct = $objItem->getProduct();
+        
+        if($arrSet['quantity'] > 10)
+            $arrSet['quantity'] = 10;
+        
         return $arrSet;
     }
 
