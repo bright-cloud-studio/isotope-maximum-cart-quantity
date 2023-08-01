@@ -1,12 +1,12 @@
 <?php
 
 /*
- * Bright Cloud Studio's Isotope Maximum Cart Quantity
- * Copyright (C) 2023 Bright Cloud Studio
- *
- * @package    bright-cloud-studio/isotope-maximum-cart-quantity
- * @link       https://www.brightcloudstudio.com/
- * @license    http://opensource.org/licenses/lgpl-3.0.html
+* Bright Cloud Studio's Isotope Maximum Cart Quantity
+* Copyright (C) 2023 Bright Cloud Studio
+*
+* @package    bright-cloud-studio/isotope-maximum-cart-quantity
+* @link       https://www.brightcloudstudio.com/
+* @license    http://opensource.org/licenses/lgpl-3.0.html
 */
 
 namespace Bcs\Backend;
@@ -19,6 +19,7 @@ use Isotope\Model\Product;
 use Isotope\Model\ProductCollection;
 use Isotope\Model\ProductCollection\Order;
 
+
 class IsotopeMaximumCartQuantity extends System {
 
     /* HOOK - Triggered when trying to add a product to the cart on a Product Reader page */
@@ -26,48 +27,55 @@ class IsotopeMaximumCartQuantity extends System {
         
         // Reset our message log so we don't get stacking errors every time
         Message::reset();
-
+        
         // Get our product from within this collection ("cart") so we can see what the quantity is
         $oInCart = null;
         $oInCart = $objCollection->getItemForProduct($objProduct);
         
-        // If we got an item from the collection and the current quantity plus our requested addition exceeds the limit
-         if( $oInCart && ($oInCart->quantity+$intQuantity) > 10 ) {
-
-            $allowableQuantity = ($oInCart->quantity+$intQuantity) - 10;
-             
-            // Show our Isotope message box with our "truncatedQuantity" message
+        
+        // If our cart has this product already and it is at the maximum limit
+        if($oInCart && $oInCart->quantity == 10 ) {
+            // Show our "Your at the limit" message and do nothing
             Message::addConfirmation($GLOBALS['TL_LANG']['MSC']['cartAtMaximum']);
+            return false;
+        }
+        
+        // If our cart has this product and our requested increase would go over the limit
+        else if( $oInCart && ($oInCart->quantity+$intQuantity) > 10 ) {
             
-            // return what the quantity ended up being
+            // find out how many could actually get added
+            $allowableQuantity = 10 - $oInCart->quantity;
             return $allowableQuantity;
-             
-         } else {
-             // this request to add more items wont go over the limit, return our requested quantity
-             return $intQuantity;
-         }
-    
-        // We're doing nothing so return false to continue on with other things
+        
+        }
+        
+        // If this product isnt already in our cart
+        else {
+            // limit our requested quantity to the maximum
+            if($intQuantity > 10)
+                $intQuantity = 10;
+                
+            return $intQuantity;
+        }
+        
+        // None of our conditions hit, move on
         return false;
     }
-
-
+    
+    
     /* HOOK - Triggered when trying to update our quantity on a Cart page */
     public function updateCollectionQuantity($objItem, $arrSet, $objCart) {
         
-        // If our quantity exceeds the limit
+        // Set our requested quantity to the limit if it exceeds it
         if($arrSet['quantity'] > 10) {
-            
-            // Set our new quantity to the limit
             $arrSet['quantity'] = 10;
-        
+            
             // Display our Isotope message explaining what went down
             Message::addConfirmation($GLOBALS['TL_LANG']['MSC']['cartAtMaximum']);
-            
         }
-            
+        
         // Return our modified set
         return $arrSet;
     }
-  
+
 }
