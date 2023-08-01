@@ -33,12 +33,14 @@ class IsotopeMaximumCartQuantity extends System {
         
         // If we got an item from the collection and the current quantity plus our requested addition exceeds the limit
          if( $oInCart && ($oInCart->quantity+$intQuantity) > 10 ) {
-            
+
+            $allowableQuantity = ($oInCart->quantity+$intQuantity) - 10;
+             
             // Show our Isotope message box with our "truncatedQuantity" message
             Message::addConfirmation($GLOBALS['TL_LANG']['MSC']['cartAtMaximum']);
             
             // return what the quantity ended up being
-            return 0;
+            return $allowableQuantity;
              
          } else {
              // this request to add more items wont go over the limit, return our requested quantity
