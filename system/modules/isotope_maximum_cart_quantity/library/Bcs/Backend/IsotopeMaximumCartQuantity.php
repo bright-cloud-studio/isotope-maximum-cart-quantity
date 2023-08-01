@@ -34,6 +34,13 @@ class IsotopeMaximumCartQuantity extends System {
      */
     public function checkCollectionQuantity( Product $objProduct, $intQuantity, IsotopeProductCollection $objCollection ) {
         \Controller::log('ISO: checkCollectionQuantity triggered', __CLASS__ . '::' . __FUNCTION__, 'GENERAL');
+        
+        Message::addError(sprintf(
+            "Line One"
+            , $objProduct->getName()
+            , $intQuantity
+        ));
+        
         return false;
     }
 
