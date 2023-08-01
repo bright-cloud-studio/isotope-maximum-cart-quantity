@@ -34,7 +34,7 @@ class IsotopeMaximumCartQuantity extends System {
      * @return array
      */
     public function updateQtyInCollection($objItem, $arrSet, $objCart) {
-
+        return $arrSet;
     }
 
 
@@ -50,7 +50,7 @@ class IsotopeMaximumCartQuantity extends System {
      * @return boolean
      */
     public function checkQtyForCollection( Product $objProduct, $intQuantity, IsotopeProductCollection $objCollection ) {
-
+        return false;
     }
 
   
