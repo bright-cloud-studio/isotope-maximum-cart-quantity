@@ -6,7 +6,7 @@
       <source>We have added %s cases to your cart. For orders larger than %s cases please <a href="#">contact us</a>.</source>
     </trans-unit>
     <trans-unit id="MSC.cartAtMaximum">
-      <source>Your cart already has the maximum number of %s cases. For orders larger than 10 cases please contact us.</source>
+      <source>Your cart already has the maximum number of 10 cases. For orders larger than 10 cases please contact us.</source>
     </trans-unit>
 </body>
 </file>
