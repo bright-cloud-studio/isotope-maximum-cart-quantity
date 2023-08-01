@@ -25,6 +25,20 @@ use Isotope\Model\ProductCollection\Order;
 class IsotopeMaximumCartQuantity extends System {
 
     /**
+     * Checks if the given quantity exceeds our stock when adding product to cart
+     *
+     * @param Isotope\Model\Product $objProduct
+     * @param Isotope\Model\ProductCollection $objCollection
+     *
+     * @return boolean
+     */
+    public function checkCollectionQuantity( Product $objProduct, $intQuantity, IsotopeProductCollection $objCollection ) {
+        \Controller::log('ISO: checkCollectionQuantity triggered', __CLASS__ . '::' . __FUNCTION__, 'GENERAL');
+        return false;
+    }
+
+
+    /**
      * Prevents setting the quantity in cart higher than given in simple_erp_count
      *
      * @param \Isotope\Model\ProductCollectionItem $objItem
@@ -33,24 +47,9 @@ class IsotopeMaximumCartQuantity extends System {
      *
      * @return array
      */
-    public function updateQtyInCollection($objItem, $arrSet, $objCart) {
+    public function updateCollectionQuantity($objItem, $arrSet, $objCart) {
+        \Controller::log('ISO: updateCollectionQuantity triggered', __CLASS__ . '::' . __FUNCTION__, 'GENERAL');
         return $arrSet;
-    }
-
-
-
-  
-
-    /**
-     * Checks if the given quantity exceeds our stock when adding product to cart
-     *
-     * @param Isotope\Model\Product $objProduct
-     * @param Isotope\Model\ProductCollection $objCollection
-     *
-     * @return boolean
-     */
-    public function checkQtyForCollection( Product $objProduct, $intQuantity, IsotopeProductCollection $objCollection ) {
-        return false;
     }
 
   
