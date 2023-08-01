@@ -21,66 +21,59 @@ use Isotope\Model\ProductCollection\Order;
 
 class IsotopeMaximumCartQuantity extends System {
 
-    /**
-     * Checks if the given quantity exceeds our stock when adding product to cart
-     *
-     * @param Isotope\Model\Product $objProduct
-     * @param Isotope\Model\ProductCollection $objCollection
-     *
-     * @return boolean
-     */
+    /* HOOK - Triggered when trying to add a product to the cart on a Product Reader page */
     public function checkCollectionQuantity( Product $objProduct, $intQuantity, IsotopeProductCollection $objCollection ) {
         
-        // Add a message to the log showing this hook was called
-        //\Controller::log('ISO: checkCollectionQuantity triggered', __CLASS__ . '::' . __FUNCTION__, 'GENERAL');
-        
-        
-        // find product in cart to check if the total quantity exceeds our stock
+        // Reset our message log so we don't get stacking errors every time
+        Message::reset();
+
+        // Get our product from within this collection ("cart") so we can see what the quantity is
         $oInCart = null;
         $oInCart = $objCollection->getItemForProduct($objProduct);
         
-        // if we have something in the cart, and that plus our requested quantity are above ten
+        // If we got an item from the collection and the current quantity plus our requested addition exceeds the limit
          if( $oInCart && ($oInCart->quantity+$intQuantity) > 10 ) {
-             
-             Message::addError(sprintf(
+            
+            // Show our Isotope message box with our "truncatedQuantity" message
+            Message::addError(sprintf(
                 $GLOBALS['TL_LANG']['ERR']['truncatedQuantity']
                 , $intQuantity
                 , 999
             ));
             
+            // return what the quantity ended up being
             return 0;
              
          } else {
+             // this request to add more items wont go over the limit, return our requested quantity
              return $intQuantity;
          }
     
-        
+        // We're doing nothing so return false to continue on with other things
         return false;
     }
 
 
-    /**
-     * Prevents setting the quantity in cart higher than given in simple_erp_count
-     *
-     * @param \Isotope\Model\ProductCollectionItem $objItem
-     * @param array $arrSet
-     * @param \Isotope\Model\ProductCollection\Cart $objCart
-     *
-     * @return array
-     */
+    /* HOOK - Triggered when trying to update our quantity on a Cart page */
     public function updateCollectionQuantity($objItem, $arrSet, $objCart) {
         
-        // Add message to log to show it triggered this hook
-        //\Controller::log('ISO: updateCollectionQuantity triggered', __CLASS__ . '::' . __FUNCTION__, 'GENERAL');
-        
-        $objProduct = null;
-        $objProduct = $objItem->getProduct();
-        
-        if($arrSet['quantity'] > 10)
+        // If our quantity exceeds the limit
+        if($arrSet['quantity'] > 10) {
+            
+            // Set our new quantity to the limit
             $arrSet['quantity'] = 10;
         
+            // Display our Isotope message explaining what went down
+            Message::addError(sprintf(
+                $GLOBALS['TL_LANG']['ERR']['maximumQuantity']
+                , "PRODUCT_NAME"
+                , 999
+            ));
+            
+        }
+            
+        // Return our modified set
         return $arrSet;
     }
-
   
 }
