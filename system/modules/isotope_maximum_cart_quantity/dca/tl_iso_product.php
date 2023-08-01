@@ -12,7 +12,7 @@
 
  /* Extend the tl_user palettes */
 foreach ($GLOBALS['TL_DCA']['tl_iso_product']['palettes'] as $k => $v) {
-    $GLOBALS['TL_DCA']['tl_iso_product']['palettes'][$k] = str_replace('stop;', 'stop;{maximum_cart_quantity_legend},limit;', $v);
+    $GLOBALS['TL_DCA']['tl_iso_product']['palettes'][$k] = str_replace('meta_description;', 'meta_description;{maximum_cart_quantity_legend},limit;', $v);
 }
 
 /* Add fields to tl_iso_product */
