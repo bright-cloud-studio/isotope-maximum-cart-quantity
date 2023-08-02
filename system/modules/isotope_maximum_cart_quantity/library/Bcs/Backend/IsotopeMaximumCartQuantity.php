@@ -78,4 +78,20 @@ class IsotopeMaximumCartQuantity extends System {
         return $arrSet;
     }
 
+
+    public function transferCoupons(IsotopeProductCollection $oldCollection, IsotopeProductCollection $newCollection)
+    {
+        if ($oldCollection instanceof Cart && $newCollection instanceof Cart) {
+            $oldCoupons = StringUtil::deserialize($oldCollection->coupons, true);
+            $newCoupons = StringUtil::deserialize($newCollection->coupons, true);
+            
+            $newCollection->coupons = array_unique(array_merge($oldCoupons, $newCoupons));
+            $newCollection->save();
+        }
+    }
+
+
+
+    
+
 }
