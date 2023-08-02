@@ -83,6 +83,8 @@ class IsotopeMaximumCartQuantity extends System {
     /* HOOK - Triggered when logging in during checkout, merges the guest and account carts */
     public function mergeCollections(IsotopeProductCollection $oldCollection, IsotopeProductCollection $newCollection)
     {
+        \Controller::log('HOOK: mergeCollections Triggered', __CLASS__ . '::' . __FUNCTION__, 'GENERAL');
+        
         // If we have an old cart and a new cart
         if ($oldCollection instanceof Cart && $newCollection instanceof Cart) {
             /*
