@@ -24,6 +24,7 @@ use Isotope\Model\ProductCollection\Order;
 
 class IsotopeMaximumCartQuantity extends System {
 
+    
     /* HOOK - Triggered when trying to add a product to the cart on a Product Reader page */
     public function checkCollectionQuantity( Product $objProduct, $intQuantity, IsotopeProductCollection $objCollection ) {
         
@@ -80,25 +81,23 @@ class IsotopeMaximumCartQuantity extends System {
         return $arrSet;
     }
 
-    /* HOOK - Triggered when logging in during checkout, merges the guest and account carts */
+    
+    /* HOOK - Triggered when two carts have merged together (when a guest logs in while having items in their cart, while their account already had a cart attached to it */
     public function mergeCollections(IsotopeProductCollection $oldCollection, IsotopeProductCollection $newCollection)
     {
-        \Controller::log('HOOK: mergeCollections Triggered', __CLASS__ . '::' . __FUNCTION__, 'GENERAL');
-        
         // If we have an old cart and a new cart
         if ($oldCollection instanceof Cart && $newCollection instanceof Cart) {
-            /*
-            $oldCoupons = StringUtil::deserialize($oldCollection->coupons, true);
-            $newCoupons = StringUtil::deserialize($newCollection->coupons, true);
             
-            $newCollection->coupons = array_unique(array_merge($oldCoupons, $newCoupons));
+            // Loop through all of the items in our new cart
+            foreach($newCollection->getItems() as $oItem) {
+                // Limit the quantity to 10
+                if($oItem->quantity > 10)
+                    $oItem->quantity = 10;
+            }
+
+            // Save our modifications
             $newCollection->save();
-            */
         }
     }
-
-
-
-    
 
 }
