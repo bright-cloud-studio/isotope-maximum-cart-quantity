@@ -17,7 +17,9 @@ use Isotope\Message;
 use Isotope\Model\Config;
 use Isotope\Model\Product;
 use Isotope\Model\ProductCollection;
+use Isotope\Model\ProductCollection\Cart;
 use Isotope\Model\ProductCollection\Order;
+
 
 
 class IsotopeMaximumCartQuantity extends System {
@@ -78,15 +80,18 @@ class IsotopeMaximumCartQuantity extends System {
         return $arrSet;
     }
 
-
-    public function transferCoupons(IsotopeProductCollection $oldCollection, IsotopeProductCollection $newCollection)
+    /* HOOK - Triggered when logging in during checkout, merges the guest and account carts */
+    public function mergeCollections(IsotopeProductCollection $oldCollection, IsotopeProductCollection $newCollection)
     {
+        // If we have an old cart and a new cart
         if ($oldCollection instanceof Cart && $newCollection instanceof Cart) {
+            /*
             $oldCoupons = StringUtil::deserialize($oldCollection->coupons, true);
             $newCoupons = StringUtil::deserialize($newCollection->coupons, true);
             
             $newCollection->coupons = array_unique(array_merge($oldCoupons, $newCoupons));
             $newCollection->save();
+            */
         }
     }
 
