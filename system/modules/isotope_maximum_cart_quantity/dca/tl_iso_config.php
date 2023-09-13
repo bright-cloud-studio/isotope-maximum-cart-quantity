@@ -35,8 +35,8 @@
         'inputType'             => 'radio',
         'options'               => array('individual' => 'Limit individual product quantity', 'combined' => 'Limit total cart quantity'),
         'eval'                  => array('mandatory'=>true, 'tl_class'=>'w50'),
-        'default'               => 'true',
-        'sql'                   => "varchar(32) NOT NULL default 'individual'"
+        'default'               => 'individual',
+        'sql'                   => "varchar(32) NOT NULL default ''"
     );
 
 ?>
