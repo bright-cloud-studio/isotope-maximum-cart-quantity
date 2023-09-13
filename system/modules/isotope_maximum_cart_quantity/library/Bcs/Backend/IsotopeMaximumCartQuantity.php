@@ -29,45 +29,66 @@ class IsotopeMaximumCartQuantity extends System {
     /* HOOK - Triggered when trying to add a product to the cart on a Product Reader page */
     public function checkCollectionQuantity( Product $objProduct, $intQuantity, IsotopeProductCollection $objCollection ) {
         
-        // The maximum quantity allowed in the cart at one time;
+        // Get the maximum quantity number from our store config
         $objConfig = Isotope::getConfig();
         $quantity = $objConfig->maxCartQuantity;
         
         // Reset our message log so we don't get stacking errors every time
         Message::reset();
         
-        // Get our product from within this collection ("cart") so we can see what the quantity is
-        $oInCart = null;
-        $oInCart = $objCollection->getItemForProduct($objProduct);
         
         
-        // If our cart has this product already and it is at the maximum limit
-        if($oInCart && $oInCart->quantity == $quantity ) {
-            // Show our "Your at the limit" message and do nothing
-            Message::addConfirmation($objConfig->maxCartMessage);
-            return false;
-        }
         
-        // If our cart has this product and our requested increase would go over the limit
-        else if( $oInCart && ($oInCart->quantity+$intQuantity) > $quantity ) {
-            
-            // find out how many could actually get added
-            $allowableQuantity = $quantity - $oInCart->quantity;
-            return $allowableQuantity;
         
-        }
+        //foreach($objCollection->getItems() as $prod) {
+        //    print_r($prod);
+        //}
+        //die();
+
         
-        // If this product isnt already in our cart
-        else {
-            // limit our requested quantity to the maximum
-            if($intQuantity > $quantity)
-                $intQuantity = $quantity;
+        switch ($objConfig->typeOfLimit) {
+            case "individual":
                 
-            return $intQuantity;
+                // Get our product from within this collection ("cart") so we can see what the quantity is
+                $oInCart = null;
+                $oInCart = $objCollection->getItemForProduct($objProduct);
+                
+                // If our cart has this product already and it is at the maximum limit
+                if($oInCart && $oInCart->quantity == $quantity ) {
+                    // Show our "Your at the limit" message and do nothing
+                    Message::addConfirmation($objConfig->maxCartMessage);
+                    return false;
+                }
+                
+                // If our cart has this product and our requested increase would go over the limit
+                else if( $oInCart && ($oInCart->quantity+$intQuantity) > $quantity ) {
+                    
+                    // find out how many could actually get added
+                    $allowableQuantity = $quantity - $oInCart->quantity;
+                    return $allowableQuantity;
+                
+                }
+                
+                // If this product isnt already in our cart
+                else {
+                    // limit our requested quantity to the maximum
+                    if($intQuantity > $quantity)
+                        $intQuantity = $quantity;
+                        
+                    return $intQuantity;
+                }
+                
+                return;
+                break;
+                
+            case "combined":
+                echo "Your favorite color is blue!";
+                break;
+            default:
+                return false;
         }
         
-        // None of our conditions hit, move on
-        return false;
+        
     }
     
     
@@ -78,12 +99,21 @@ class IsotopeMaximumCartQuantity extends System {
         $objConfig = Isotope::getConfig();
         $quantity = $objConfig->maxCartQuantity;
         
-        // Set our requested quantity to the limit if it exceeds it
-        if($arrSet['quantity'] > $quantity) {
-            $arrSet['quantity'] = $quantity;
-            
-            // Display our Isotope message explaining what went down
-            Message::addConfirmation($objConfig->maxCartMessage);
+        switch ($objConfig->typeOfLimit) {
+            case "individual":
+                
+                // Set our requested quantity to the limit if it exceeds it
+                if($arrSet['quantity'] > $quantity) {
+                    $arrSet['quantity'] = $quantity;
+                    
+                    // Display our Isotope message explaining what went down
+                    Message::addConfirmation($objConfig->maxCartMessage);
+                }
+                
+                break;
+            case "combined":
+                echo "Your favorite color is blue!";
+                break;
         }
         
         // Return our modified set
@@ -98,19 +128,29 @@ class IsotopeMaximumCartQuantity extends System {
         $objConfig = Isotope::getConfig();
         $quantity = $objConfig->maxCartQuantity;
         
-        // If we have an old cart and a new cart
-        if ($oldCollection instanceof Cart && $newCollection instanceof Cart) {
-            
-            // Loop through all of the items in our new cart
-            foreach($newCollection->getItems() as $oItem) {
-                // Limit the quantity
-                if($oItem->quantity > $quantity)
-                    $oItem->quantity = $quantity;
-            }
-
-            // Save our modifications
-            $newCollection->save();
+        switch ($objConfig->typeOfLimit) {
+            case "individual":
+                
+                // If we have an old cart and a new cart
+                if ($oldCollection instanceof Cart && $newCollection instanceof Cart) {
+                    
+                    // Loop through all of the items in our new cart
+                    foreach($newCollection->getItems() as $oItem) {
+                        // Limit the quantity
+                        if($oItem->quantity > $quantity)
+                            $oItem->quantity = $quantity;
+                    }
+        
+                    // Save our modifications
+                    $newCollection->save();
+                }
+                
+                break;
+            case "combined":
+                echo "Your favorite color is blue!";
+                break;
         }
+        
     }
 
 }
