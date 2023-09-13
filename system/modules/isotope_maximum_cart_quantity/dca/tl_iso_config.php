@@ -32,10 +32,11 @@
     $GLOBALS['TL_DCA']['tl_iso_config']['fields']['typeOfLimit'] = array
     (
         'label'                 => &$GLOBALS['TL_LANG']['tl_iso_config']['typeOfLimit'],
-        'inputType'                 => 'radio',
-        'options'                   => array('individual' => 'Limit individual product quantity', 'combined' => 'Limit total cart quantity'),
-        'eval'                      => array('mandatory'=>true, 'tl_class'=>'w50'),
-        'sql'                       => "varchar(32) NOT NULL default ''"
+        'inputType'             => 'radio',
+        'options'               => array('individual' => 'Limit individual product quantity', 'combined' => 'Limit total cart quantity'),
+        'eval'                  => array('mandatory'=>true, 'tl_class'=>'w50'),
+        'default'               => 'individual',
+        'sql'                   => "varchar(32) NOT NULL default ''"
     );
 
 ?>
